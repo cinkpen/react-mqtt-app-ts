@@ -7,11 +7,22 @@ interface IContainer {
 
 const Container = (props: IContainer) => {
 
-  const [value, setValue] = useState(0);
+  const [temp1, setTemp1] = useState<undefined | number>(undefined);
+  const [temp2, setTemp2] = useState<undefined | number>(undefined);
 
   useEffect(() => {
-    const handleValueChange = (topic:string, newValue: number) => setValue(newValue);
-    const subscribeId = mqttClient.subscribe(["home/cluster1-1/metric/cputemp"], handleValueChange);
+    const handleValueChange = (topic:string, newValue: number) => {
+      switch (topic){
+        case "home/cluster1-1/metric/cputemp": 
+          setTemp1(newValue);
+          break
+        case "home/pi0-server2/metric/cputemp":
+          setTemp2(newValue);
+          break;
+      }
+      
+    };
+    const subscribeId = mqttClient.subscribe(["home/cluster1-1/metric/cputemp", "home/pi0-server2/metric/cputemp"], handleValueChange);
 
     return () => {
       mqttClient.unsubscribe(subscribeId);
@@ -19,7 +30,8 @@ const Container = (props: IContainer) => {
   });
 
   return (<div>
-    <CPUTemperatureRenderer Value={value} />
+    <CPUTemperatureRenderer Value={temp1} />
+    <CPUTemperatureRenderer Value={temp2} />
   </div>);
 };
 

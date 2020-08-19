@@ -1,17 +1,14 @@
 import React from 'react'
-
-/*
-Use the hook here
-*/
+import { stringify } from 'uuid';
 
 export interface ICPUTemperatureRenderer {
-   Value:number
+   Value?:number
   } ;
 
 
 const CPUTemperatureRenderer = (props:ICPUTemperatureRenderer) =>{
-
-    return <>This will display the latest value: {props.Value}</>;
+  const toDisplay  = (props.Value === undefined?"unknown":props.Value.toString());
+    return <div className="live-value">{toDisplay}</div >;
 };
 
-export default CPUTemperatureRenderer;
+export default CPUTemperatureRenderer; 
