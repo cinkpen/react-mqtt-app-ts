@@ -22,7 +22,7 @@ const Container = (props: IContainer) => {
       }
       
     };
-    const subscribeId = mqttClient.subscribe(["home/cluster1-1/metric/cputemp", "home/pi0-server2/metric/cputemp"], handleValueChange);
+    const subscribeId = mqttClient.register(["home/cluster1-1/metric/cputemp", "home/pi0-server2/metric/cputemp"], handleValueChange);
 
     return () => {
       mqttClient.unsubscribe(subscribeId);

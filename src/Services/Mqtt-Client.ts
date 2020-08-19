@@ -42,16 +42,30 @@ class MyMqttClient{
                 const val = this.registrations[key];
                 val._topics.forEach(topic =>{
                     this.client.subscribe(topic);
-                } );
+                });
             });
         }});
     }
 
-    subscribe(topics:string[], callback:any):string{
+    subAll() {
+        Object.keys(this.registrations).forEach(key => {
+            const val = this.registrations[key];
+            val._topics.forEach(topic => {
+                this.client.subscribe(topic);
+            });
+        });
+        
+    }
+
+    register(topics:string[], callback:any):string {
         //TODO if connected - then we need to subscribe immediately
         const id = uuidv4();
         const reg = new MqttRegistration(topics, callback, id);
         this.registrations[id] = reg;
+        
+        if(this.client.isConnected()) {
+            this.subAll();
+        }
       
         return id;
     }
