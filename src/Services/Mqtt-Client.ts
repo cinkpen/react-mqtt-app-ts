@@ -23,11 +23,7 @@ class MyMqttClient{
                 {
                     obj._callback(message.topic, message.payloadString)
                 }
-
-
             });
-            
-
             //TODO - at the moment - all callbacks are called for any topic
             // this.callbacks.forEach(callback => {
             //     callback(message.payloadString);
