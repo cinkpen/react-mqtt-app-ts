@@ -37,6 +37,7 @@ class MyMqttClient{
     }
 
     subscribe(topic:string, callback:any){
+        //TODO if connected - then we need to subscribe immediately
         this.topics.push(topic);
         this.callbacks.push(callback);
     }
