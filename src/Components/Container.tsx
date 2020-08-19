@@ -10,11 +10,11 @@ const Container = (props: IContainer) => {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
-    const handleValueChange = (newValue: number) => setValue(newValue);
-    mqttClient.subscribe("home/cluster1-1/metric/cputemp", handleValueChange);
+    const handleValueChange = (topic:string, newValue: number) => setValue(newValue);
+    const subscribeId = mqttClient.subscribe(["home/cluster1-1/metric/cputemp"], handleValueChange);
 
     return () => {
-      mqttClient.unsubscribe("home/cluster1-1/metric/cputemp", handleValueChange);
+      mqttClient.unsubscribe(subscribeId);
     }
   });
 
